@@ -8,11 +8,14 @@ if [ ! -d "$year" ]; then
     mkdir -p $year
 fi
 
-# Download the data
-wget ftp://ftp.ncdc.noaa.gov/pub/data/gsod/$year/gsod_$year.tar -O $year/gsod_$year.tar
+# Download the data (if we don't already have it)
+if [ ! -f "$year/gsod_$year.tar" ]; then
+    wget ftp://ftp.ncdc.noaa.gov/pub/data/gsod/$year/gsod_$year.tar -O $year/gsod_$year.tar
+fi
 
 # Unzip the data
 if [ -f "$year/gsod_$year.tar" ]; then
     echo "Unzipping the downloaded data."
     tar -xvf $year/gsod_$year.tar -C $year/
+    rm $year/gsod_$year.tar
 fi
