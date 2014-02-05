@@ -14,5 +14,5 @@ wget ftp://ftp.ncdc.noaa.gov/pub/data/gsod/$year/gsod_$year.tar -O $year/gsod_$y
 # Unzip the data
 if [ -f "$year/gsod_$year.tar" ]; then
     echo "Unzipping the downloaded data."
-    tar --extract $year/gsod_$year.tar $year/
+    tar -xvf $year/gsod_$year.tar -C $year/
 fi
