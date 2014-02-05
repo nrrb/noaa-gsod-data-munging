@@ -6,7 +6,7 @@ Getting a historical perspective on how much snow Chicago has been burdened by f
 Getting The Data
 ================
 
-The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD) measurements for nationwide weather stations dating back to 1929. There is a subfolder for each year, and within each year you can download a single file that contains all measurements for all stations of that year. For example, data for 1929 is found in [this directory][4], and all 1901 data can be downloaded with this single file:
+The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD) measurements for nationwide weather stations dating back to 1929. There is a subfolder for each year, and within each year you can download a single file that contains all measurements for all stations of that year. For example, data for 1929 is found in [this directory][4], and all 1929 data can be downloaded with this single file:
 
 [ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar][5]
 
