@@ -10,12 +10,12 @@ The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD
 
 [ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar][5]
 
-The good thing is that they provide all the datas, the bad thing is that it's in a particular format described in [a text document here][2]. As well, the weather stations are referred to by unique GSOD ID in the data files, which is defined in [this 3MB ish-history.csv file][3]. There are 31940 weather stations listed in that file, each with a different start and end date of when it recorded measurements. 
+The good thing is that they provide all the datas, the bad thing is that it's in a particular format described in [a text document here][2]. As well, the weather stations are referred to by unique GSOD ID in the data files, which is defined in [this 3MB ish-history.csv file][3]. There are 31940 weather stations listed in that file, each with a different start and end date of when it recorded measurements.
 
 Prerequisites
 =============
 
-I developed this on a system running Ubuntu 12.04.3 x64. 
+I developed this on a system running Ubuntu 12.04.3 x64.
 
 * wget
 * bash
@@ -61,15 +61,15 @@ This folder contains some shell scripts to help with downloading the data files 
 If you just want to get started super quickly, cross your fingers, and read the instructions later:
 
 ```
-./get_all_data.sh && ./convert_all_op_to_csv.sh
+./1_get_all_data.sh && ./2_convert_all_op_to_csv.sh && ./3_remove_all_extraneous_lines.sh && 4_stack_all_csvs.sh
 ```
 
-## [get_data_for_year_XXXX.sh][6]
+## [1_get_data_for_year_XXXX.sh][6]
 
 To download and extract the data for 1959, you would run:
 
 ```
-./get_data_for_year_XXXX.sh 1959
+./1_get_data_for_year_XXXX.sh 1959
 ```
 
 This script:
@@ -106,12 +106,12 @@ echo "Unzipping the downloaded data."
 fi
 ```
 
-## [convert_op_to_csv_for_year_XXXX.sh][7]
+## [2_convert_op_to_csv_for_year_XXXX.sh][7]
 
 To convert the `.op` files you just downloaded for 1959 into CSV format, run:
 
 ```
-./convert_op_to_csv_for_year_XXXX.sh 1959
+./2_convert_op_to_csv_for_year_XXXX.sh 1959
 ```
 
 This uses the excellent [in2csv][9] utility that's part of [onyxfish/csvkit][10], in conjunction with [a schema file][8] I forked from onyxfish/ffs.
@@ -128,8 +128,7 @@ in2csv -s gsod_schema.csv $filename > $filename.csv
 done
 ```
 
-The original file isn't well formatted to be a CSV, as there is a second header row that doesn't add any information to the first header row. 
-
+The original file isn't well formatted to be a CSV, as there is a second header row that doesn't add any information to the first header row.
 
 
   [1]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/
@@ -137,8 +136,8 @@ The original file isn't well formatted to be a CSV, as there is a second header 
   [3]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/ish-history.csv
   [4]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/
   [5]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar
-  [6]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/get_data_for_year_XXXX.sh
-  [7]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/convert_op_to_csv_for_year_XXXX.sh
+  [6]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/1_get_data_for_year_XXXX.sh
+  [7]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/2_convert_op_to_csv_for_year_XXXX.sh
   [8]: https://github.com/tothebeat/ffs/blob/master/us/noaa/gsod_schema.csv
   [9]: http://csvkit.readthedocs.org/en/latest/scripts/in2csv.html
   [10]: https://github.com/onyxfish/csvkit
