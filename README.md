@@ -56,13 +56,13 @@ git clone https://github.com/tothebeat/chicago-snowfall.git
 cd chicago-snowfall/noaa_gsod
 ```
 
+This folder contains some shell scripts to help with downloading the data files from the NOAA FTP site.
+
 If you just want to get started super quickly, cross your fingers, and read the instructions later:
 
 ```
 ./get_all_data.sh && ./convert_all_op_to_csv.sh
 ```
-
-This folder contains some shell scripts to help with downloading the data files from the NOAA FTP site.
 
 ## [get_data_for_year_XXXX.sh][6]
 
