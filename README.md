@@ -38,7 +38,7 @@ pip install csvkit
 
 If [virtualenv][11] sounds too complicated, you can install csvkit at the system level:
 
-```bash
+```
 sudo apt-get install python-setuptools
 sudo easy_install pip
 sudo pip install csvkit
@@ -50,7 +50,7 @@ Getting Started
 
 Clone this repository and change directory into the `noaa_gsod` subfolder:
 
-```bash
+```
 git clone https://github.com/tothebeat/chicago-snowfall.git
 cd chicago-snowfall/noaa_gsod
 ```
@@ -61,7 +61,7 @@ This folder contains some shell scripts to help with downloading the data files 
 
 To download and extract the data for 1959, you would run:
 
-```bash
+```
 ./get_data_for_year_XXXX.sh 1959
 ```
 
@@ -103,7 +103,7 @@ fi
 
 To convert the `.op` files you just downloaded for 1959 into CSV format, run:
 
-```bash
+```
 ./convert_op_to_csv_for_year_XXXX.sh 1959
 ```
 
@@ -122,7 +122,6 @@ done
 ```
 
 The original file isn't well formatted to be a CSV, as there is a second header row that doesn't add any information to the first header row. 
-
 
 
 
