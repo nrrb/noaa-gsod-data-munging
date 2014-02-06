@@ -61,7 +61,7 @@ echo "Unzipping the downloaded data."
     tar -xvf $year/gsod_$year.tar -C $year/
     rm $year/gsod_$year.tar
     for filename in `ls $year/*.gz`; do
-gunzip $year/$filename
+        gunzip $year/$filename
     done
 fi
 ```
@@ -83,7 +83,7 @@ for filename in `ls $year/*.op`; do
 in2csv -s gsod_schema.csv $filename > $filename.csv
     # With the CSV now, we have no reason to keep the stinky .OP around
     if [ -f $filename.csv ]; then
-rm $filename
+        rm $filename
     fi
 done
 ```
