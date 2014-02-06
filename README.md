@@ -132,6 +132,12 @@ done
 
 The original file isn't well formatted to be a CSV, as there is a second header row that doesn't add any information to the first header row.
 
+```
+STN---,WBAN,YEAR,MO,DA,TEMP,Count (TEMP),DEWP,Count (DEWP),SLP,Count (SLP),STP,Count (STP),VISIB,Count (VISIB),WDSP,Count (WDSP),MXSPD,GUST,MAX,Flag (MAX),MIN,Flag (MIN),PRCP,Flag (PRCP),SNDP,Fog,Rain/Drizzle,Snow/Ice pellets,Hail,Thunder,Tornado/Funnel cloud
+STN---,WBAN,YEAR,MO,DA,TEMP,,DEWP,,SLP,,STP,,VISIB,,WDSP,,MXSPD,GUST,MAX,,MIN,,PRCP,,SNDP,F,R,S,H,T,T
+034700,99999,1970,01,02,37.7,10,33.6,10,9999.9,0,1000.7,4,2.0,10,12.1,10,15.9,999.9,40.3,*,35.4,*,0.00,I,999.9,1,0,0,0,0,0
+```
+
 To run on the CSV files we have from 1929:
 
 ```
