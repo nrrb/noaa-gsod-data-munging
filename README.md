@@ -12,6 +12,39 @@ The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD
 
 The good thing is that they provide all the datas, the bad thing is that it's in a particular format described in [a text document here][2]. As well, the weather stations are referred to by unique GSOD ID in the data files, which is defined in [this 3MB ish-history.csv file][3]. There are 31940 weather stations listed in that file, each with a different start and end date of when it recorded measurements. 
 
+Prerequisites
+=============
+
+I developed this on a system running Ubuntu 12.04.3 x64. 
+
+* wget
+* bash
+* [csvkit][10]
+* tar
+* gunzip
+
+On Ubuntu 12.04.3 x64, it comes by default with wget, bash, tar, and gunzip.
+
+I install [csvkit][10] using a Python [virtualenv][11]. On a blank Ubuntu system, this is what I do:
+
+```bash
+sudo apt-get install python-setuptools
+sudo easy_install pip
+sudo pip install virtualenv virtualenvwrapper
+source /usr/local/bin/virtualenvwrapper.sh
+mkvirtualenv snowfall
+pip install csvkit
+```
+
+If [virtualenv][11] sounds too complicated, you can install csvkit at the system level:
+
+```bash
+sudo apt-get install python-setuptools
+sudo easy_install pip
+sudo pip install csvkit
+```
+
+
 Getting Started
 ===============
 
