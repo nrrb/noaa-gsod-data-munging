@@ -94,7 +94,7 @@ echo "Unzipping the downloaded data."
     tar -xvf $year/gsod_$year.tar -C $year/
     rm $year/gsod_$year.tar
     for filename in `ls $year/*.gz`; do
-        gunzip $year/$filename
+        gunzip $filename
     done
 fi
 ```
