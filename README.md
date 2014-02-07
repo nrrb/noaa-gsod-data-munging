@@ -58,21 +58,22 @@ cd chicago-snowfall/noaa_gsod
 
 This folder contains some shell scripts to help with downloading the data files from the NOAA FTP site.
 
-If you just want to get started super quickly, cross your fingers, and read the instructions later:
+## Download and Extract Data
 
+Download all of the data with the [get_all_data.sh][7] script:
+
+```bash
+#!/bin/bash
+
+# Although there are folders for years 1901 to 1928 on the FTP site, the archive files there are empty.
+for year in {1929..2014}; do
+    ./get_data_for_year_XXXX.sh $year
+done
 ```
-./1_get_all_data.sh && ./2_convert_all_op_to_csv.sh && ./3_remove_all_extraneous_lines.sh && 4_stack_all_csvs.sh
-```
 
-## [1_get_data_for_year_XXXX.sh][6]
+This script runs through the years 1929 to 2014 and runs [get_data_for_year_XXXX.sh][6] for each of them. 
 
-To download and extract the data for 1929, you would run:
-
-```
-./1_get_data_for_year_XXXX.sh 1929
-```
-
-This script:
+Starting with year 1929, this script:
 
 1. Creates a `1929` subfolder.
 2. Downloads `ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar` to the new folder.
@@ -106,75 +107,34 @@ echo "Unzipping the downloaded data."
 fi
 ```
 
-## [2_convert_op_to_csv_for_year_XXXX.sh][7]
+In each year's folder, we now have a number of `.op` files each representing a single weather station's data for the year, and that number increases drastically over the years. For instance, 1929 has 21 station data files while 2013 has 12510 station data files.
 
-To convert the `.op` files you just downloaded for 1929 into CSV format, run:
+## Stack Data Files into One per Year
+
+With each data file containing 366 data rows at most, and there being a large number of data files for many of the years, the computational overhead of opening and processing files one by one becomes notable. Since the format of all of the `.op` files is the same, we can safely concatenate/stack them into a single file for each of the years, to later be processed into a single CSV.
+
+The trick is to remove the header row of each `.op` file first, so it doesn't appear incorrectly as data rows in the stacked file:
 
 ```
-./2_convert_op_to_csv_for_year_XXXX.sh 1929
-```
-
-This uses the excellent [in2csv][9] utility that's part of [onyxfish/csvkit][10], in conjunction with [a schema file][8] I forked from onyxfish/ffs.
-
-```bash
-#!/bin/bash
-year=$1
-for filename in `ls $year/*.op`; do
-in2csv -s gsod_schema.csv $filename > $filename.csv
-    # With the CSV now, we have no reason to keep the stinky .OP around
-    if [ -f $filename.csv ]; then
-        rm $filename
-    fi
+for filename in `ls 1929/*.op`; do
+    tail -n +2 $filename > $filename.header_stripped
+    mv $filename.header_stripped $filename
 done
 ```
 
-## [3_remove_extraneous_line_for_year_XXXX.sh][12]
-
-The original file isn't well formatted to be a CSV, as there is a second header row that doesn't add any information to the first header row.
+To stack the `.op` files for 1929, we can simply do:
 
 ```
-STN---,WBAN,YEAR,MO,DA,TEMP,Count (TEMP),DEWP,Count (DEWP),SLP,Count (SLP),STP,Count (STP),VISIB,Count (VISIB),WDSP,Count (WDSP),MXSPD,GUST,MAX,Flag (MAX),MIN,Flag (MIN),PRCP,Flag (PRCP),SNDP,Fog,Rain/Drizzle,Snow/Ice pellets,Hail,Thunder,Tornado/Funnel cloud
-STN---,WBAN,YEAR,MO,DA,TEMP,,DEWP,,SLP,,STP,,VISIB,,WDSP,,MXSPD,GUST,MAX,,MIN,,PRCP,,SNDP,F,R,S,H,T,T
-034700,99999,1970,01,02,37.7,10,33.6,10,9999.9,0,1000.7,4,2.0,10,12.1,10,15.9,999.9,40.3,*,35.4,*,0.00,I,999.9,1,0,0,0,0,0
+cat 1929/*.op > 1929_stacked.op
 ```
 
-To run on the CSV files we have from 1929:
+## Convert .op Files to CSV
+
+To convert `1929_stacked.op` into a CSV file, we'll use the excellent [in2csv][9] utility that's part of [onyxfish/csvkit][10], in conjunction with [a schema file][8] I forked from onyxfish/ffs:
 
 ```
-./3_remove_extraneous_line_for_year_XXXX.sh 1929
-```
-
-To remove the extraneous line, I use [csvkit][10]'s excellent [csvgrep][14] script. I use the inverse-match argument for csvgrep to find all lines that **don't** match the extra header row. It's easy to pick out; in the "Fog" column, the extra row says "F" while real data rows will show "1" or "0".
-
-```bash
-#!/bin/bash
-year=$1
-for filename in `ls $year/*.csv`; do
-    # The extraneous line we're trying to get rid of can be distinguished
-    # by the value of "F" in the "Fog" column. All data rows have numeric
-    # values in that column.
-    csvgrep -c "Fog" -i -m F $filename > $filename.cleaned
-    mv $filename.cleaned $filename
-done
-```
-
-## [4_stack_csv_for_year_XXXX.sh][13]
-
-Each year's folder now has a set of cleaned CSV files in it. All the information provided by the filename is also inside the CSV files themselves, so we can stack these together easily.
-
-```
-./4_stack_csv_for_year_XXXX.sh 1929
-```
-
-This script uses another tool from [csvkit][10] called [csvstack][15], that can join rows together from CSV files that have the same header row.
-
-```bash
-#!/bin/bash
-csvstack $1/*.csv > $1.csv
-# If the stack was created, delete the original individual CSV files
-if [ -f $1.csv ]; then
-rm -rf $1/
-fi
+in2csv -s gsod_schema.csv 1929_stacked.op > 1929.csv
+rm 1929_stacked.op
 ```
 
 
@@ -183,13 +143,9 @@ fi
   [3]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/ish-history.csv
   [4]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/
   [5]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar
-  [6]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/1_get_data_for_year_XXXX.sh
-  [7]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/2_convert_op_to_csv_for_year_XXXX.sh
+  [6]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/get_data_for_year_XXXX.sh
+  [7]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/get_all_data.sh
   [8]: https://github.com/tothebeat/ffs/blob/master/us/noaa/gsod_schema.csv
   [9]: http://csvkit.readthedocs.org/en/latest/scripts/in2csv.html
   [10]: https://github.com/onyxfish/csvkit
   [11]: http://www.virtualenv.org/en/latest/
-  [12]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/3_remove_extraneous_line_for_year_XXXX.sh
-  [13]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/4_stack_csv_for_year_XXXX.sh
-  [14]: http://csvkit.readthedocs.org/en/latest/scripts/csvgrep.html
-  [15]: http://csvkit.readthedocs.org/en/latest/scripts/csvstack.html
