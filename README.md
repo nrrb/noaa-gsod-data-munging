@@ -82,12 +82,11 @@ Starting with year 1929, this script:
 
 ```bash
 #!/bin/bash
+year=$1
 
 # Create a directory for the year
-
-year=$1
 if [ ! -d "$year" ]; then
-echo "Creating a directory."
+echo Creating a directory.
     mkdir -p $year
 fi
 
@@ -98,7 +97,7 @@ fi
 
 # Unzip the data
 if [ -f "$year/gsod_$year.tar" ]; then
-echo "Unzipping the downloaded data."
+echo Unzipping the downloaded data.
     tar -xvf $year/gsod_$year.tar -C $year/
     rm $year/gsod_$year.tar
     for filename in `ls $year/*.gz`; do
@@ -115,7 +114,7 @@ With each data file containing 366 data rows at most, and there being a large nu
 
 The trick is to remove the header row of each `.op` file first, so it doesn't appear incorrectly as data rows in the stacked file:
 
-```
+```bash
 for filename in `ls 1929/*.op`; do
     tail -n +2 $filename > $filename.header_stripped
     mv $filename.header_stripped $filename
@@ -124,17 +123,35 @@ done
 
 To stack the `.op` files for 1929, we can simply do:
 
-```
+```bash
 cat 1929/*.op > 1929_stacked.op
+```
+
+I combined the two steps above into a single script that works on a year at a time, [strip_header_and_stack_op_files_for_year_XXXX.sh][12]. To run this against all files, do:
+
+```bash
+for year in {1929..2012}; do
+    echo $year
+    ./strip_header_and_stack_op_files_for_year_XXXX.sh $year
+done
 ```
 
 ## Convert .op Files to CSV
 
-To convert `1929_stacked.op` into a CSV file, we'll use the excellent [in2csv][9] utility that's part of [onyxfish/csvkit][10], in conjunction with [a schema file][8] I forked from onyxfish/ffs:
+To convert `1929.op` into a CSV file, we'll use the excellent [in2csv][9] utility that's part of [onyxfish/csvkit][10], in conjunction with [a schema file][8] I forked from onyxfish/ffs:
 
 ```
-in2csv -s gsod_schema.csv 1929_stacked.op > 1929.csv
-rm 1929_stacked.op
+in2csv -s gsod_schema.csv 1929.op > 1929.csv
+rm 1929.op
+```
+
+To convert all stacked .op files into CSV:
+
+```bash
+for year in {1929..2012}; do
+    in2csv -s gsod_schema.csv $year.op > $year.csv
+    rm $year.op
+done
 ```
 
 
@@ -149,3 +166,4 @@ rm 1929_stacked.op
   [9]: http://csvkit.readthedocs.org/en/latest/scripts/in2csv.html
   [10]: https://github.com/onyxfish/csvkit
   [11]: http://www.virtualenv.org/en/latest/
+  [12]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/strip_header_and_stack_op_files_for_year_XXXX.sh
