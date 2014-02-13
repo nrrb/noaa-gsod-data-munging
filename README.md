@@ -44,14 +44,13 @@ Getting Started
 ===============
 
 
-Clone this repository and change directory into the `noaa_gsod` subfolder:
+Clone this repository:
 
 ```
 git clone https://github.com/tothebeat/chicago-snowfall.git
-cd chicago-snowfall/noaa_gsod
 ```
 
-This folder contains some shell scripts to help with downloading the data files from the NOAA FTP site.
+There are some shell scripts here to help with downloading the data files from the NOAA FTP site.
 
 ## Download and Extract Data
 
@@ -155,10 +154,10 @@ done
   [3]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/ish-history.csv
   [4]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/
   [5]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar
-  [6]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/get_data_for_year_XXXX.sh
-  [7]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/get_all_data.sh
+  [6]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/get_data_for_year_XXXX.sh
+  [7]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/get_all_data.sh
   [8]: https://github.com/tothebeat/ffs/blob/master/us/noaa/gsod_schema.csv
   [9]: http://csvkit.readthedocs.org/en/latest/scripts/in2csv.html
   [10]: https://github.com/onyxfish/csvkit
   [11]: http://www.virtualenv.org/en/latest/
-  [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/strip_header_and_stack_op_files_for_year_XXXX.sh
+  [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/strip_header_and_stack_op_files_for_year_XXXX.sh
