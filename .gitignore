@@ -1,6 +1,7 @@
+# Ignore Python bytecode files
 *.pyc
+# Don't track the data we're munging, Github gets cranky about big files
 *.gz
 *.tar
 *.op
 *.csv
-*.db
