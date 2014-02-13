@@ -1,10 +1,5 @@
-chicago-snowfall
-================
-
-Getting a historical perspective on how much snow Chicago has been burdened by for every winter of recorded weather history.
-
-Weather Data Source
-===================
+Background
+==========
 
 The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD) measurements for nationwide weather stations dating back to 1929. There is a subfolder for each year, and within each year you can download a single file that contains all measurements for all stations of that year. For example, data for 1929 is found in [this directory][4], and all 1929 data can be downloaded with this single file:
 
@@ -160,10 +155,10 @@ done
   [3]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/ish-history.csv
   [4]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/
   [5]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar
-  [6]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/get_data_for_year_XXXX.sh
-  [7]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/get_all_data.sh
+  [6]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/get_data_for_year_XXXX.sh
+  [7]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/get_all_data.sh
   [8]: https://github.com/tothebeat/ffs/blob/master/us/noaa/gsod_schema.csv
   [9]: http://csvkit.readthedocs.org/en/latest/scripts/in2csv.html
   [10]: https://github.com/onyxfish/csvkit
   [11]: http://www.virtualenv.org/en/latest/
-  [12]: https://github.com/tothebeat/chicago-snowfall/blob/master/noaa_gsod/strip_header_and_stack_op_files_for_year_XXXX.sh
+  [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/noaa_gsod/strip_header_and_stack_op_files_for_year_XXXX.sh
