@@ -1,56 +1,38 @@
 Background
 ==========
 
-The NOAA has an [FTP site][1] where they provide Global Summary Of the Day (GSOD) measurements for nationwide weather stations dating back to 1929. There is a subfolder for each year, and within each year you can download a single file that contains all measurements for all stations of that year. For example, data for 1929 is found in [this directory][4], and all 1929 data can be downloaded with this single file:
+The National Oceanographic and Atmospheric Agency's (NOAA) National Climatic Data Center (NCDC) collects and distributes climate measurements from thousands of weather stations around the world, with some records dating back as early as 1929. The NCDC has an [FTP site][1] where they provide Global Summary Of the Day (GSOD) measurements, derived from hourly measurements found in the [Integrated Surfaces Database][13].
+
+This repository wouldn't have to exist if it was easy to get and use all of the data, but it's not (or it wasn't for me). There's a fixed-width column format with its key/schema described [in this text file][2], the weather stations themselves are defined in [this 3MB CSV file][3] and related by unique ID, and the data is split up into many individual files per year and station.
+
+All data collected for a given year can be found in a single TAR archive file, thankfully. For example, data collected in 1929 can be found here:
 
 [ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar][5]
 
-The good thing is that they provide all the datas, the bad thing is that it's in a particular format described in [a text document here][2]. As well, the weather stations are referred to by unique GSOD ID in the data files, which is defined in [this 3MB ish-history.csv file][3]. There are 31940 weather stations listed in that file, each with a different start and end date of when it recorded measurements.
+This TAR file, when extracted, contains 21 files, each of which contains the data collected from a single weather station. Each weather station may not have recorded data for every day of the year.
 
-Prerequisites
-=============
+## Prerequisites
 
-I developed this on a system running Ubuntu 12.04.3 x64.
-
-* wget
-* bash
-* [csvkit][10]
-* tar
-* gunzip
-
-On Ubuntu 12.04.3 x64, it comes by default with wget, bash, tar, and gunzip.
-
-I install [csvkit][10] using a Python [virtualenv][11]. On a blank Ubuntu system, this is what I do:
+I did this download on an Ubuntu system, but it could be done equally well on a Mac or in a Bash shell on Windows, anywhere you can install [csvkit][10]. On Ubuntu, I installed csvkit using a [Python virtual environment][11], but you might find csvkit so useful that you install it globally.
 
 ```bash
-sudo apt-get install python-setuptools
-sudo easy_install pip
-sudo pip install virtualenv virtualenvwrapper
-source /usr/local/bin/virtualenvwrapper.sh
-mkvirtualenv snowfall
+sudo apt-get install python3-pip
+virtualenv -p python3 ~/.venv
+source ~/.venv/bin/activate
 pip install csvkit
 ```
 
-If [virtualenv][11] sounds too complicated, you can install csvkit at the system level:
+Any time you want to get back to using csvkit, you can run:
+
+```bash
+source ~/.venv/bin/activate
+```
+
+You can install csvkit at the system level:
 
 ```
-sudo apt-get install python-setuptools
-sudo easy_install pip
 sudo pip install csvkit
 ```
-
-
-Getting Started
-===============
-
-
-Clone this repository:
-
-```
-git clone https://github.com/tothebeat/chicago-snowfall.git
-```
-
-There are some shell scripts here to help with downloading the data files from the NOAA FTP site.
 
 ## Download and Extract Data
 
@@ -60,12 +42,12 @@ Download all of the data with the [get_all_data.sh][7] script:
 #!/bin/bash
 
 # Although there are folders for years 1901 to 1928 on the FTP site, the archive files there are empty.
-for year in {1929..2014}; do
+for year in {1929..2017}; do
     ./get_data_for_year_XXXX.sh $year
 done
 ```
 
-This script runs through the years 1929 to 2014 and runs [get_data_for_year_XXXX.sh][6] for each of them. 
+This script runs through the years 1929 to 2017 and runs [get_data_for_year_XXXX.sh][6] for each of them.
 
 Starting with year 1929, this script:
 
@@ -124,7 +106,7 @@ cat 1929/*.op > 1929_stacked.op
 I combined the two steps above into a single script that works on a year at a time, [strip_header_and_stack_op_files_for_year_XXXX.sh][12]. To run this against all files, do:
 
 ```bash
-for year in {1929..2012}; do
+for year in {1929..2017}; do
     echo $year
     ./strip_header_and_stack_op_files_for_year_XXXX.sh $year
 done
@@ -142,7 +124,7 @@ rm 1929.op
 To convert all stacked .op files into CSV:
 
 ```bash
-for year in {1929..2012}; do
+for year in {1929..2017}; do
     in2csv -s gsod_schema.csv $year.op > $year.csv
     rm $year.op
 done
@@ -161,3 +143,4 @@ done
   [10]: https://github.com/onyxfish/csvkit
   [11]: http://www.virtualenv.org/en/latest/
   [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/strip_header_and_stack_op_files_for_year_XXXX.sh
+  [13]: https://www.ncdc.noaa.gov/isd
