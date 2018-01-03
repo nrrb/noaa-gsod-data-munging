@@ -9,7 +9,7 @@ All data collected for a given year can be found in a single TAR archive file, t
 
 [ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar][5]
 
-This TAR file, when extracted, contains 21 files, each of which contains the data collected from a single weather station. Each weather station may not have recorded data for every day of the year.
+This TAR file, when extracted, contains 21 files, each of which contains the data collected from a single weather station. Each weather station may not have recorded data for every day of the year. There is some variability of this over the years; see this [summary file](summary.txt) for statistics on how many days of data there were reported per station per year (there's gotta be a better way to say that). ([read here for how I generated this][14])
 
 ## Prerequisites
 
@@ -144,3 +144,4 @@ done
   [11]: http://www.virtualenv.org/en/latest/
   [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/strip_header_and_stack_op_files_for_year_XXXX.sh
   [13]: https://www.ncdc.noaa.gov/isd
+  [14]: https://github.com/tothebeat/cheatsheets/blob/master/shell.md#to-get-these-statistics-for-every-year-folder-from-1929-to-2017
