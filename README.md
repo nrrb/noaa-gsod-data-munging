@@ -28,7 +28,7 @@ Any time you want to get back to using csvkit, you can run:
 source ~/.venv/bin/activate
 ```
 
-You can install csvkit at the system level:
+You can alternately install csvkit at the system level:
 
 ```
 sudo pip install csvkit
