@@ -42,12 +42,12 @@ Download all of the data with the [get_all_data.sh][7] script:
 #!/bin/bash
 
 # Although there are folders for years 1901 to 1928 on the FTP site, the archive files there are empty.
-for year in {1929..2017}; do
+for year in {1929..2019}; do
     ./get_data_for_year_XXXX.sh $year
 done
 ```
 
-This script runs through the years 1929 to 2017 and runs [get_data_for_year_XXXX.sh][6] for each of them.
+This script runs through the years 1929 to 2019 and runs [get_data_for_year_XXXX.sh][6] for each of them.
 
 Starting with year 1929, this script:
 
@@ -106,7 +106,7 @@ cat 1929/*.op > 1929_stacked.op
 I combined the two steps above into a single script that works on a year at a time, [strip_header_and_stack_op_files_for_year_XXXX.sh][12]. To run this against all files, do:
 
 ```bash
-for year in {1929..2017}; do
+for year in {1929..2019}; do
     echo $year
     ./strip_header_and_stack_op_files_for_year_XXXX.sh $year
 done
@@ -124,7 +124,7 @@ rm 1929.op
 To convert all stacked .op files into CSV:
 
 ```bash
-for year in {1929..2017}; do
+for year in {1929..2019}; do
     in2csv -s gsod_schema.csv $year.op > $year.csv
     rm $year.op
 done
@@ -144,4 +144,4 @@ done
   [11]: http://www.virtualenv.org/en/latest/
   [12]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/strip_header_and_stack_op_files_for_year_XXXX.sh
   [13]: https://www.ncdc.noaa.gov/isd
-  [14]: https://github.com/tothebeat/cheatsheets/blob/master/shell.md#to-get-these-statistics-for-every-year-folder-from-1929-to-2017
+  [14]: https://github.com/tothebeat/cheatsheets/blob/master/shell.md#to-get-these-statistics-for-every-year-folder-from-1929-to-2019
