@@ -133,7 +133,7 @@ done
 
   [1]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/
   [2]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/GSOD_DESC.txt
-  [3]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/ish-history.csv
+  [3]: ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
   [4]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/
   [5]: ftp://ftp.ncdc.noaa.gov/pub/data/gsod/1929/gsod_1929.tar
   [6]: https://github.com/tothebeat/noaa-gsod-data-munging/blob/master/get_data_for_year_XXXX.sh
